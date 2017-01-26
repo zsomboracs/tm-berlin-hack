@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.hotels.domain.machine.Artist;
 import com.hotels.domain.machine.FullArtistData;
 import com.hotels.service.EventFilterService;
@@ -45,8 +44,6 @@ public class ArtistController {
     @Autowired
     private DiscoveryApi discoveryApi;
     @Autowired
-    private Gson gson;
-    @Autowired
     private SearchOperationProvider searchOperationProvider;
     @Autowired
     private EventFilterService eventFilterService;
@@ -62,9 +59,6 @@ public class ArtistController {
             artists = (List<FullArtistData>) in.readObject();
             in.close();
             fileIn.close();
-            //        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-            //        artists = gson.fromJson(content, new TypeToken<ArrayList<FullArtistData>>() {
-            //        }.getType());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,8 +123,6 @@ public class ArtistController {
             i++;
         }
 
-        //String jsonResult = gson.toJson(fullArtistDataList);
-
         try {
             FileOutputStream fileOut = new FileOutputStream("artists.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -141,8 +133,6 @@ public class ArtistController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Files.write(Paths.get(FILE_NAME), jsonResult.getBytes());
 
         return "Done!";
     }

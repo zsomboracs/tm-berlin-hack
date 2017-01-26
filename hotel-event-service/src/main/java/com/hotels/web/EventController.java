@@ -1,10 +1,12 @@
 package com.hotels.web;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,8 @@ public class EventController {
                         .startDateTime(startDate + "T00:00:00Z")
                         .endDateTime(endDate + "T00:00:00Z"));
 
-        List<Event> result = eventFilterService.filter(page.getContent().getEvents().stream())
+        List<Event> result = eventFilterService
+                .filter(Optional.ofNullable(page).map(PagedResponse<Events>::getContent).map(Events::getEvents).orElse(Collections.emptyList()).stream())
                 .map(this::getEvent)
                 .collect(Collectors.toList());
 
@@ -54,8 +57,8 @@ public class EventController {
         Optional<Venue> venue = Optional.ofNullable(tmEvent.getVenues().get(0));
         Optional<PriceRanges> priceRanges = Optional.ofNullable(tmEvent.getPriceRanges().get(0));
 
-        DateTimeFormatter dateFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatter = org.joda.time.format.DateTimeFormat.forPattern("HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm:ss");
 
         return new Event.Builder()
                 .withEventId(tmEvent.getId())
