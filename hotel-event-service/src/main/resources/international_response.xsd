@@ -1,0 +1,190 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="events">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="event" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="id"/>
+                    <xs:element type="xs:string" name="domain_id"/>
+                    <xs:element type="xs:string" name="name"/>
+                    <xs:element type="xs:string" name="url"/>
+                    <xs:element type="xs:string" name="externalUrl"/>
+                    <xs:element name="eventdate">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="format"/>
+                          <xs:element type="xs:dateTime" name="value"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="day_of_week"/>
+                    <xs:element type="xs:string" name="timezone"/>
+                    <xs:element type="xs:dateTime" name="localeventdate"/>
+                    <xs:element name="images">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="image" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="url"/>
+                                <xs:element type="xs:string" name="type"/>
+                                <xs:element type="xs:short" name="width"/>
+                                <xs:element type="xs:short" name="height"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="onsale">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="format"/>
+                          <xs:element type="xs:dateTime" name="value"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="offsale">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="format"/>
+                          <xs:element type="xs:dateTime" name="value"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="dooropening" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="format"/>
+                          <xs:element type="xs:dateTime" name="value"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="properties">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="cancelled"/>
+                          <xs:element type="xs:string" name="rescheduled"/>
+                          <xs:element type="xs:string" name="seats_avail"/>
+                          <xs:element type="xs:string" name="sold_out"/>
+                          <xs:element type="xs:string" name="package"/>
+                          <xs:element type="xs:string" name="system"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="venue">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:short" name="id"/>
+                          <xs:element type="xs:string" name="name"/>
+                          <xs:element type="xs:string" name="url"/>
+                          <xs:element name="location">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="address">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="address"/>
+                                      <xs:element type="xs:short" name="postal_code"/>
+                                      <xs:element type="xs:string" name="city"/>
+                                      <xs:element type="xs:string" name="country"/>
+                                      <xs:element type="xs:float" name="long"/>
+                                      <xs:element type="xs:float" name="lat"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="categories">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="category" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:short" name="id"/>
+                                <xs:element type="xs:string" name="name"/>
+                                <xs:element name="subcategories">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="subcategory" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="id"/>
+                                            <xs:element type="xs:string" name="name"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="attractions">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="attraction">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:int" name="id"/>
+                                <xs:element type="xs:string" name="name"/>
+                                <xs:element type="xs:string" name="url"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="price_ranges">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="excluding_ticket_fees">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:float" name="max"/>
+                                <xs:element type="xs:float" name="min"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="including_ticket_fees">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:float" name="max"/>
+                                <xs:element type="xs:float" name="min"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="currency"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="pagination">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:byte" name="start"/>
+              <xs:element type="xs:byte" name="rows"/>
+              <xs:element type="xs:short" name="total"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
