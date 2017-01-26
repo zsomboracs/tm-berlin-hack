@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HotelController {
 
-    @GetMapping("/")
-    @ResponseBody
-    public String index() throws IOException {
-        return "Up and running!";
-    }
-
     @GetMapping("/hotel")
     @ResponseBody
     public String getHotels() throws IOException {
