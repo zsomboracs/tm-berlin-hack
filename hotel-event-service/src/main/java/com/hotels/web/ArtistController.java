@@ -1,14 +1,18 @@
 package com.hotels.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,16 +21,18 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.hotels.IdMapping;
 import com.hotels.domain.machine.Artist;
+import com.hotels.domain.machine.FullArtistData;
+import com.hotels.service.EventFilterService;
+import com.hotels.service.SearchOperationProvider;
 import com.ticketmaster.api.discovery.DiscoveryApi;
-import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.discovery.model.Attraction;
+import com.ticketmaster.discovery.model.Date;
 import com.ticketmaster.discovery.model.Event;
 import com.ticketmaster.discovery.model.Events;
 import com.ticketmaster.discovery.model.Image;
@@ -34,27 +40,52 @@ import com.ticketmaster.discovery.model.Image;
 @Controller
 public class ArtistController {
 
-    private static final String FILE_NAME = "artists.json";
+    private static final String FILE_NAME = "artists.ser";
 
     @Autowired
     private DiscoveryApi discoveryApi;
     @Autowired
     private Gson gson;
+    @Autowired
+    private SearchOperationProvider searchOperationProvider;
+    @Autowired
+    private EventFilterService eventFilterService;
 
-    private List<Artist> artists;
+    private List<FullArtistData> artists;
 
     @PostConstruct
-    private void init() throws IOException {
-        File file = new File(getClass().getClassLoader().getResource(FILE_NAME).getFile());
-        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-        artists = gson.fromJson(content, new TypeToken<ArrayList<Artist>>() {
-        }.getType());
+    private void init() {
+        try {
+            File file = new File(getClass().getClassLoader().getResource(FILE_NAME).getFile());
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            artists = (List<FullArtistData>) in.readObject();
+            in.close();
+            fileIn.close();
+            //        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+            //        artists = gson.fromJson(content, new TypeToken<ArrayList<FullArtistData>>() {
+            //        }.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @GetMapping("/artists")
     @ResponseBody
-    public List<Artist> getArtists() throws IOException {
-        return artists;
+    public List<Artist> getArtists(
+            @RequestParam(value = "startDate") String startDate,
+            @RequestParam(value = "endDate") String endDate) {
+
+        LocalDate startDateLD = LocalDate.parse(startDate);
+        LocalDate endDateLD = LocalDate.parse(endDate);
+
+        return artists.stream()
+                .filter(a -> hasEnoughEvents(a.getEventDates(),
+                        LocalDateTime.of(startDateLD.getYear(), startDateLD.getMonth(), startDateLD.getDayOfMonth(), 0, 0, 0),
+                        LocalDateTime.of(endDateLD.getYear(), endDateLD.getMonth(), endDateLD.getDayOfMonth(), 0, 0, 0)))
+                .map(FullArtistData::getArtist)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/initialize")
@@ -67,10 +98,7 @@ public class ArtistController {
             addEvents(events, i);
         }
 
-        List<Event> filteredEvents = events.stream()
-                .filter(e -> Optional.ofNullable(e.getAttractions()).map(List::size).orElse(0) == 1)
-                .filter(e -> Optional.ofNullable(e.getPriceRanges()).map(List::size).orElse(0) > 0)
-                .collect(Collectors.toList());
+        List<Event> filteredEvents = eventFilterService.filter(events.stream()).collect(Collectors.toList());
 
         Map<Attraction, Integer> attractionMap = new HashMap<>();
         for (Event event : filteredEvents) {
@@ -79,28 +107,56 @@ public class ArtistController {
         }
 
         List<Artist> result = attractionMap.entrySet().stream()
-                .filter(a -> Objects.nonNull(a.getKey().getImages()))
-                .filter(a -> !a.getKey().getImages().isEmpty())
                 .sorted(Map.Entry.<Attraction, Integer>comparingByValue().reversed())
-                .limit(70)
+                .limit(100)
                 .map(entry -> this.getArtist(entry.getKey()))
                 .collect(Collectors.toList());
 
-        String jsonResult = gson.toJson(result);
+        List<FullArtistData> fullArtistDataList = new ArrayList<>();
 
-        Files.write(Paths.get(FILE_NAME), jsonResult.getBytes());
+        int i = 0;
+        for (Artist artist : result) {
+            System.out.println("Getting events for artists ... " + i);
+            PagedResponse<Events> page = discoveryApi.searchEvents(searchOperationProvider.getBaseOperation().attractionId(artist.getId()));
+            List<LocalDateTime> eventDates = eventFilterService.filter(page.getContent().getEvents().stream())
+                    .map(Event::getDates)
+                    .map(Date::getStart)
+                    .map(Date.Start::getDateTime)
+                    .map(joda -> LocalDateTime.ofInstant(joda.toDate().toInstant(), ZoneId.systemDefault()))
+                    .sorted()
+                    .collect(Collectors.toList());
+            fullArtistDataList.add(new FullArtistData.Builder().withSummaryArtistData(artist).withEventDates(eventDates).build());
+            i++;
+        }
+
+        //String jsonResult = gson.toJson(fullArtistDataList);
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream("artists.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(fullArtistDataList);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in artists.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Files.write(Paths.get(FILE_NAME), jsonResult.getBytes());
 
         return "Done!";
     }
 
+    private boolean hasEnoughEvents(List<LocalDateTime> eventDates, LocalDateTime startDate, LocalDateTime endDate) {
+        return eventDates.stream()
+                .filter(eventDate -> eventDate.isAfter(startDate) || eventDate.isEqual(startDate))
+                .filter(eventDate -> eventDate.isBefore(endDate))
+                .count() > 5;
+    }
+
     private void addEvents(List<Event> events, int i) {
         try {
-            PagedResponse<Events> page = discoveryApi.searchEvents(
-                    new SearchEventsOperation()
-                            .pageSize(IdMapping.MAX_PAGE_SIZE)
-                            .pageNumber(i)
-                            .countryCode(IdMapping.US_COUNTRY_CODE)
-                            .classificationId(IdMapping.MUSIC_CATEGORY_ID));
+            PagedResponse<Events> page = discoveryApi.searchEvents(searchOperationProvider.getBaseOperation().pageNumber(i));
             events.addAll(page.getContent().getEvents());
         } catch (Exception e) {
             System.out.println("Socket timeout .. trying again ...");

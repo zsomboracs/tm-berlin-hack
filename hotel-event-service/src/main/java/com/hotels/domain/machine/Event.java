@@ -7,6 +7,9 @@ public class Event {
     private String startDate;
     private String startTime;
 
+    private String localStartDate;
+    private String localStartTime;
+
     private String city;
     private String countryCode;
     private String country;
@@ -84,10 +87,20 @@ public class Event {
         return startTime;
     }
 
+    public String getLocalStartDate() {
+        return localStartDate;
+    }
+
+    public String getLocalStartTime() {
+        return localStartTime;
+    }
+
     private Event(Builder builder) {
         eventId = builder.eventId;
         startDate = builder.startDate;
         startTime = builder.startTime;
+        localStartDate = builder.localStartDate;
+        localStartTime = builder.localStartTime;
         city = builder.city;
         countryCode = builder.countryCode;
         country = builder.country;
@@ -106,6 +119,8 @@ public class Event {
         private String eventId;
         private String startDate;
         private String startTime;
+        private String localStartDate;
+        private String localStartTime;
         private String city;
         private String countryCode;
         private String country;
@@ -134,6 +149,16 @@ public class Event {
 
         public Builder withStartTime(String val) {
             startTime = val;
+            return this;
+        }
+
+        public Builder withLocalStartDate(String val) {
+            localStartDate = val;
+            return this;
+        }
+
+        public Builder withLocalStartTime(String val) {
+            localStartTime = val;
             return this;
         }
 

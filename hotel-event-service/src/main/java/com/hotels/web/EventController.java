@@ -5,16 +5,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hotels.IdMapping;
 import com.hotels.domain.machine.Event;
+import com.hotels.service.EventFilterService;
+import com.hotels.service.SearchOperationProvider;
 import com.ticketmaster.api.discovery.DiscoveryApi;
-import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.discovery.model.Date;
 import com.ticketmaster.discovery.model.Events;
@@ -26,29 +27,23 @@ public class EventController {
 
     @Autowired
     private DiscoveryApi discoveryApi;
+    @Autowired
+    private SearchOperationProvider searchOperationProvider;
+    @Autowired
+    private EventFilterService eventFilterService;
 
     @GetMapping("/events")
     @ResponseBody
-    public List<Event> getEvents(@RequestParam(value = "artistId") String artistId) {
+    public List<Event> getEvents(@RequestParam(value = "artistId") String artistId,
+            @RequestParam(value = "startDate") String startDate,
+            @RequestParam(value = "endDate") String endDate) throws IOException {
 
-        PagedResponse<Events> page = null;
-        try {
-            page = discoveryApi.searchEvents(new SearchEventsOperation()
-                    .attractionId(artistId)
-                    .countryCode(IdMapping.US_COUNTRY_CODE)
-                    .pageSize(IdMapping.MAX_PAGE_SIZE)
-                    .classificationId(IdMapping.MUSIC_CATEGORY_ID));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PagedResponse<Events> page = discoveryApi
+                .searchEvents(searchOperationProvider.getBaseOperation().attractionId(artistId)
+                        .startDateTime(startDate + "T00:00:00Z")
+                        .endDateTime(endDate + "T00:00:00Z"));
 
-        List<Event> result = page.getContent().getEvents().stream()
-                .filter(e -> Optional.ofNullable(e.getVenues()).map(List::size).orElse(0) == 1)
-                .filter(e -> e.getVenues().stream().findFirst().map(Venue::getLocation).map(Venue.Location::getLatitude).isPresent())
-                .filter(e -> e.getVenues().stream().findFirst().map(Venue::getLocation).map(Venue.Location::getLongitude).isPresent())
-                .filter(e -> Optional.ofNullable(e.getPriceRanges()).map(List::size).orElse(0) > 0)
-                .filter(e -> e.getPriceRanges().stream().findFirst().map(PriceRanges::getMin).isPresent())
-                .filter(e -> e.getPriceRanges().stream().findFirst().map(PriceRanges::getCurrency).isPresent())
+        List<Event> result = eventFilterService.filter(page.getContent().getEvents().stream())
                 .map(this::getEvent)
                 .collect(Collectors.toList());
 
@@ -58,6 +53,10 @@ public class EventController {
     private Event getEvent(com.ticketmaster.discovery.model.Event tmEvent) {
         Optional<Venue> venue = Optional.ofNullable(tmEvent.getVenues().get(0));
         Optional<PriceRanges> priceRanges = Optional.ofNullable(tmEvent.getPriceRanges().get(0));
+
+        DateTimeFormatter dateFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = org.joda.time.format.DateTimeFormat.forPattern("HH:mm:ss");
+
         return new Event.Builder()
                 .withEventId(tmEvent.getId())
                 .withCity(venue.map(Venue::getCity).map(Venue.City::getName).orElse(null))
@@ -72,16 +71,15 @@ public class EventController {
                 .withVenueName(venue.map(Venue::getName).orElse(null))
                 .withVenueAddress(venue.map(Venue::getAddress).map(Venue.Address::getLine1).orElse(null))
                 .withUrl(tmEvent.getUrl())
-                .withStartDate(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getLocalDate).orElse(null))
-                .withStartTime(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getLocalTime).orElse(null))
+                .withStartDate(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getDateTime).map(d -> dateFormatter.print(d)).orElse(null))
+                .withStartTime(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getDateTime).map(d -> timeFormatter.print(d)).orElse(null))
+                .withLocalStartDate(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getLocalDate).orElse(null))
+                .withLocalStartTime(Optional.ofNullable(tmEvent.getDates()).map(Date::getStart).map(Date.Start::getLocalTime).orElse(null))
                 .build();
     }
 
     private String getPrice(Double price, String currency) {
-        if (currency.equals("USD")) {
-            return String.format("$%.1f", price);
-        }
-        return String.format("%.1f %s", price, currency);
+        return String.format("%.1f", price);
     }
 
 }
