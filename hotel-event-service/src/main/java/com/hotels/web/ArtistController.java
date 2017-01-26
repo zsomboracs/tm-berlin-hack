@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hotels.IdMapping;
 import com.hotels.domain.machine.Artist;
 import com.ticketmaster.api.discovery.DiscoveryApi;
 import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
@@ -33,7 +34,6 @@ import com.ticketmaster.discovery.model.Image;
 @Controller
 public class ArtistController {
 
-    private static final String MUSIC_CATEGORY_ID = "KZFzniwnSyZfZ7v7nJ";
     private static final String FILE_NAME = "artists.json";
 
     @Autowired
@@ -97,9 +97,9 @@ public class ArtistController {
         try {
             PagedResponse<Events> page = discoveryApi.searchEvents(
                     new SearchEventsOperation()
-                            .pageSize(500)
+                            .pageSize(IdMapping.MAX_PAGE_SIZE)
                             .pageNumber(i)
-                            .classificationId(MUSIC_CATEGORY_ID));
+                            .classificationId(IdMapping.MUSIC_CATEGORY_ID));
             events.addAll(page.getContent().getEvents());
         } catch (Exception e) {
             System.out.println("Socket timeout .. trying again ...");
