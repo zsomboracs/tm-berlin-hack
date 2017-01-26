@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery/discovery-java.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery/discovery-java.iml" group="discovery-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery/discovery-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery/discovery-java_main.iml" group="discovery-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery/discovery-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery/discovery-java_test.iml" group="discovery-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java.iml" group="discovery-model-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java_main.iml" group="discovery-model-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/discovery-model/discovery-model-java_test.iml" group="discovery-model-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdk-java-master.iml" filepath="$PROJECT_DIR$/.idea/modules/sdk-java-master.iml" />
+    </modules>
+  </component>
+</project>
