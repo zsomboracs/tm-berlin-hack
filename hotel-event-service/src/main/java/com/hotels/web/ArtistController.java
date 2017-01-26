@@ -28,6 +28,7 @@ import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Event;
 import com.ticketmaster.discovery.model.Events;
+import com.ticketmaster.discovery.model.Image;
 
 @Controller
 public class ArtistController {
@@ -107,6 +108,16 @@ public class ArtistController {
     }
 
     private Artist getArtist(Attraction attraction) {
-        return new Artist(attraction.getId(), attraction.getName(), attraction.getImages().get(3).getUrl());
+        return new Artist(attraction.getId(), attraction.getName(), getImageUrl(attraction.getImages()));
+    }
+
+    private String getImageUrl(List<Image> images) {
+        return images.stream()
+                .filter(i -> i.getRatio().equals("3_2"))
+                .filter(i -> i.getWidth() == 305)
+                .filter(i -> i.getHeight() == 203)
+                .map(Image::getUrl)
+                .findAny()
+                .orElse(null);
     }
 }
