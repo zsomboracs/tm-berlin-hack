@@ -1,0 +1,11 @@
+@import 'common';
+
+.slot-machine {
+    margin: 24px 0;
+
+    > * {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 12px;
+    }
+}

@@ -1,0 +1,22 @@
+$color-white: #fff;
+$color-black: #000;
+$color-main: #138EFA;
+$color-price: #ff0449;
+
+@mixin font-size($size) {
+    font-size: #{$size}rem;
+    line-height: #{$size}rem;
+}
+
+@mixin transform($value) {
+    transform: $value;
+    -webkit-transform: $value;
+}
+
+@mixin vertical-centered() {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    @include transform(translateY(-50%));
+}
