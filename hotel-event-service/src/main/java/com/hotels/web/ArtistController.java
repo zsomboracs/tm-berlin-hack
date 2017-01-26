@@ -82,7 +82,7 @@ public class ArtistController {
                 .filter(a -> Objects.nonNull(a.getKey().getImages()))
                 .filter(a -> !a.getKey().getImages().isEmpty())
                 .sorted(Map.Entry.<Attraction, Integer>comparingByValue().reversed())
-                .limit(100)
+                .limit(70)
                 .map(entry -> this.getArtist(entry.getKey()))
                 .collect(Collectors.toList());
 
@@ -99,6 +99,7 @@ public class ArtistController {
                     new SearchEventsOperation()
                             .pageSize(IdMapping.MAX_PAGE_SIZE)
                             .pageNumber(i)
+                            .countryCode(IdMapping.US_COUNTRY_CODE)
                             .classificationId(IdMapping.MUSIC_CATEGORY_ID));
             events.addAll(page.getContent().getEvents());
         } catch (Exception e) {

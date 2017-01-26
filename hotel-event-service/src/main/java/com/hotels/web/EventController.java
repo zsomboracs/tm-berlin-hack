@@ -1,8 +1,6 @@
 package com.hotels.web;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +35,7 @@ public class EventController {
         try {
             page = discoveryApi.searchEvents(new SearchEventsOperation()
                     .attractionId(artistId)
+                    .countryCode(IdMapping.US_COUNTRY_CODE)
                     .pageSize(IdMapping.MAX_PAGE_SIZE)
                     .classificationId(IdMapping.MUSIC_CATEGORY_ID));
         } catch (IOException e) {
