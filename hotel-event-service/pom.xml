@@ -53,11 +53,11 @@
             <version>2.8.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.gettyimages</groupId>
-            <artifactId>gettyimagesapi-sdk</artifactId>
-            <version>1.0-pre-alpha-1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.gettyimages</groupId>-->
+            <!--<artifactId>gettyimagesapi-sdk</artifactId>-->
+            <!--<version>1.0-pre-alpha-1</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
