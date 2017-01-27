@@ -1,7 +1,39 @@
 @import 'common';
 
+$CARD_HEIGHT: 130px;
+$CARD_WIDTH: 200px;
+
 .item-details {
     border: 1px dotted $color-black;
     padding: 12px;
     margin-bottom: 12px;
+
+    .content {
+        width: 100%;
+        position: relative;
+        padding-left: $CARD_WIDTH + 12;
+        height: $CARD_HEIGHT;
+        box-sizing: border-box;
+    }
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $CARD_WIDTH;
+        height: $CARD_HEIGHT;
+        object-fit: cover;
+    }
+
+    .title {
+        font-weight: bold;
+        @include font-size(1.2);
+        margin-bottom: 24px;
+    }
+
+    .btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
 }

@@ -1,7 +1,23 @@
 $color-white: #fff;
-$color-black: #000;
+$color-black: #121314;
 $color-main: #138EFA;
 $color-price: #ff0449;
+
+$bp-mobile: 600;
+$bp-tablet: 1024;
+
+$breakpoints: (
+    mobile: (
+        max: $bp-mobile
+    ),
+    tablet: (
+        min: ($bp-mobile + 1),
+        max: $bp-tablet
+    ),
+    desktop: (
+        min: ($bp-tablet + 1)
+    )
+);
 
 @mixin font-size($size) {
     font-size: #{$size}rem;
@@ -19,4 +35,33 @@ $color-price: #ff0449;
     top: 50%;
     text-align: center;
     @include transform(translateY(-50%));
+}
+
+@mixin flexbox() {
+    display: -webkit-flex;
+    display: flex;
+}
+
+@mixin mediaQuery($breakpoint, $upperBoundary: null) {
+    $min: map-get(map-get($breakpoints, $breakpoint), "min");
+    $max: map-get(map-get($breakpoints, $breakpoint), "max");
+
+    @if ($upperBoundary) {
+        $max: map-get(map-get($breakpoints, $breakpoint), "max");
+    }
+    @if ($min != null and $max != null) {
+        @media (min-width: #{$min}px) and (max-width: #{$max}px) {
+            @content;
+        }
+    }
+    @elseif ($max != null and $min == null) {
+        @media (max-width: #{$max}px) {
+            @content;
+        }
+    }
+    @elseif ($min != null and $max == null) {
+        @media (min-width: #{$min}px) {
+            @content;
+        }
+    }
 }

@@ -1,10 +1,10 @@
 <div class="slot">
-    <img src="{{ item.image }}" />
+    <img ng-if="item.image" ng-src="{{ item.image }}" alt="{{ item.name }}" />
 
     <div class="overlay">
         <div class="content">
             <p class="name">{{ item.name }}</p>
-            <p ng-if="item.price" class="price">{{ item.price }}</p>
+            <p ng-if="item.price" class="price">from {{ item.price }}</p>
         </div>
     </div>
 </div>

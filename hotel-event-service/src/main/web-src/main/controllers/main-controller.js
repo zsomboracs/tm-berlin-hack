@@ -38,8 +38,8 @@
                 return TopArtistsService.getArtists({
                     startDate: this.fromDate,
                     endDate: this.toDate
-                }).then(function(data) {
-                    this.artists = data;
+                }).then(function(artists) {
+                    this.artists = artists;
                 }.bind(this));
             },
 
@@ -49,8 +49,11 @@
                     artistId: this.selectedItems.artist.id,
                     startDate: this.fromDate,
                     endDate: this.toDate
-                }).then(function(data) {
-                    this.events = data;
+                }).then(function(events) {
+                    events.forEach(function(event) {
+                        event.artist = this.selectedItems.artist;
+                    }.bind(this));
+                    this.events = events;
                 }.bind(this));
             },
 
@@ -61,8 +64,8 @@
                     longitude: this.selectedItems.event.longitude,
                     checkIn: this.selectedItems.event.startDate,
                     adults: this.participants
-                }).then(function(data) {
-                    this.hotels = data;
+                }).then(function(hotels) {
+                    this.hotels = hotels;
                 }.bind(this));
             },
 
@@ -94,11 +97,13 @@
 
                 setTimeout(function() {
                     var $list = $('.' + type + '-list'),
+                        $placeholder = $('.slot-placeholder[data-type="' + type + '"]'),
                         machine = $list.slotMachine({
                             delay: ROLLING_STOP_DELAY,
                             direction: 'down'
                         });
 
+                    $placeholder.hide();
                     this.selectedItems[type] = null;
 
                     machine.shuffle(false, function() {

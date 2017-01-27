@@ -16,8 +16,9 @@
                     return $.map(response.data, function(event) {
                         return {
                             name: event.city + ', ' + event.countryCode,
-                            image: null,
-                            price: 'from ' + event.minPrice
+                            image: event.cityImageUrl,
+                            price: event.minPrice,
+                            url: event.url
                         };
                     });
                 });

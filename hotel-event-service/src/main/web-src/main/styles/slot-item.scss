@@ -1,0 +1,57 @@
+@import 'common';
+
+$SLOT_WIDTH: 100%;
+$SLOT_HEIGHT: 200px;
+
+.slot-container {
+    width: $SLOT_WIDTH;
+    height: $SLOT_HEIGHT;
+    overflow: hidden;
+    border: 1px solid $color-main;
+}
+
+.slot {
+    position: relative;
+    width: $SLOT_WIDTH;
+    height: $SLOT_HEIGHT;
+    overflow: hidden;
+    background-color: $color-black;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .content {
+        @include vertical-centered();
+        padding: 12px;
+        box-sizing: border-box;
+
+        .name {
+            @include font-size(2);
+            color: $color-white;
+        }
+
+        .price {
+            margin-top: 12px;
+            @include font-size(2);
+            color: $color-main;
+        }
+
+        @include mediaQuery(mobile) {
+            .name,
+            .price {
+                @include font-size(1);
+            }
+        }
+    }
+}
+
+.slot-placeholder {
+    position: absolute;
+    top: 0;
+    background-color: $color-black;
+    border: 1px solid $color-main;
+    width: 100%;
+}

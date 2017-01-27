@@ -17,7 +17,8 @@
                         return {
                             name: hotel.name,
                             image: hotel.image,
-                            price: hotel.price
+                            price: hotel.price,
+                            url: hotel.url
                         };
                     });
                 });

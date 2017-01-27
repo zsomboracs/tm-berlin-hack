@@ -10,40 +10,51 @@
     <link rel="stylesheet" href="dist/app.min.css" />
 </head>
 <body ng-cloak ng-controller="MainController">
-    <h1>Ticket Machine</h1>
+    <div class="hero-image">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Ticket Machine</h1>
 
-    <div class="preferences">
-        <p>
-            Browsing offers for <input type="number" ng-model="vm.participants" /> persons
-        </p>
-        <p>
-            <label>From</label>
-            <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(0) }}">
-                <input ng-model="vm.fromDate" type="text" />
-            </datepicker>
-        </p>
-        <p>
-            <label>To</label>
-            <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(60) }}">
-                <input ng-model="vm.toDate" type="text" />
-            </datepicker>
-        </p>
+            <div class="preferences">
+                <div class="box">
+                    <label>Participants</label>
+                    <input type="number" ng-model="vm.participants" />
+                </div>
+                <div class="box">
+                    <label>Events from</label>
+                    <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(0) }}">
+                        <input ng-model="vm.fromDate" type="text" />
+                    </datepicker>
+                </div>
+                <div class="box">
+                    <label>Events to</label>
+                    <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(90) }}">
+                        <input ng-model="vm.toDate" type="text" />
+                    </datepicker>
+                </div>
+            </div>
+
+            <div class="cta-cont">
+                <button class="cta" ng-disabled="!(vm.participants && vm.fromDate && vm.toDate)" ng-click="vm.initGame();">
+                    Search
+                </button>
+            </div>
+        </div>
     </div>
 
-    <button class="cta" ng-disabled="!(vm.participants && vm.fromDate && vm.toDate)" ng-click="vm.initGame();">Tap to start</button>
+    <div class="container">
+        <div class="slot-machine">
+            <slot-container items="vm.artists" type="artist"></slot-container>
+            <slot-container items="vm.events" type="event"></slot-container>
+            <slot-container items="vm.hotels" type="hotel"></slot-container>
+        </div>
 
-    <div class="slot-machine">
-        <slot-container items="vm.artists" type="artist"></slot-container>
-        <slot-container items="vm.events" type="event"></slot-container>
-        <slot-container items="vm.hotels" type="hotel"></slot-container>
-    </div>
+        <div ng-show="vm.selectedItems.hotel">
+            <h2>Details</h2>
 
-    <div ng-show="vm.selectedItems.hotel">
-        <h2>Details</h2>
-
-        <item-details type="artist" item="vm.selectedItems.artist"></item-details>
-        <item-details type="event" item="vm.selectedItems.event"></item-details>
-        <item-details type="hotel" item="vm.selectedItems.hotel"></item-details>
+            <item-details type="event" item="vm.selectedItems.event"></item-details>
+            <item-details type="hotel" item="vm.selectedItems.hotel"></item-details>
+        </div>
     </div>
 
     <script src="dist/libs.min.js"></script>

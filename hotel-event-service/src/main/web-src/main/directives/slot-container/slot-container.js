@@ -8,7 +8,13 @@
                 type: '@type',
                 items: '=items'
             },
-            templateUrl: 'directives/slot-container/slot-container.html'
+            templateUrl: 'directives/slot-container/slot-container.html',
+            controller: ['$scope', function($scope) {
+                $scope.placeholder = {
+                    image: null,
+                    name: ''
+                };
+            }]
         };
     });
 
