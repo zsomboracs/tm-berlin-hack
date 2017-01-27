@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hotels.domain.machine.Event;
 import com.hotels.service.EventFilterService;
+import com.hotels.service.GoogleCustomSearchService;
+import com.hotels.service.GoogleStaticMapService;
 import com.hotels.service.SearchOperationProvider;
 import com.ticketmaster.api.discovery.DiscoveryApi;
 import com.ticketmaster.api.discovery.response.PagedResponse;
@@ -33,6 +35,10 @@ public class EventController {
     private SearchOperationProvider searchOperationProvider;
     @Autowired
     private EventFilterService eventFilterService;
+    @Autowired
+    private GoogleCustomSearchService googleCustomSearchService;
+    @Autowired
+    private GoogleStaticMapService googleStaticMapService;
 
     @GetMapping("/events")
     @ResponseBody
@@ -63,6 +69,9 @@ public class EventController {
         return new Event.Builder()
                 .withEventId(tmEvent.getId())
                 .withCity(venue.map(Venue::getCity).map(Venue.City::getName).orElse(null))
+                //.withCityImageUrl(googleCustomSearchService.getImageUrl(venue.map(Venue::getCity).map(Venue.City::getName).orElse(null)))
+                .withCityImageUrl(googleStaticMapService.getImageUrl(venue.map(Venue::getCity).map(Venue.City::getName).orElse(null),
+                    venue.map(Venue::getState).map(Venue.State::getStateCode).orElse(null)))
                 .withCountry(venue.map(Venue::getCountry).map(Venue.Country::getName).orElse(null))
                 .withCountryCode(venue.map(Venue::getCountry).map(Venue.Country::getCountryCode).orElse(null))
                 .withState(venue.map(Venue::getState).map(Venue.State::getName).orElse(null))

@@ -1,0 +1,23 @@
+<div class="item-details {{ type }}">
+    <div class="content">
+        <img ng-src="{{ item.image }}" alt="{{ item.name }}" />
+
+        <div ng-if="type === 'event'">
+            <p class="title">
+                {{ item.artist.name}} concert ticket
+            </p>
+        </div>
+
+        <div ng-if="type === 'hotel'">
+            <p class="title">
+                Accommodation in {{ item.name }}
+            </p>
+        </div>
+
+        <span class="price">{{ item.price }}</span>
+
+        <a href="{{ item.url }}" target="_blank" class="btn">
+            <button class="cta">Buy now</button>
+        </a>
+    </div>
+</div>

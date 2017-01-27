@@ -1,0 +1,56 @@
+@import 'common';
+
+.hero-image {
+    position: relative;
+    background-image: url(http://az616578.vo.msecnd.net/files/2016/03/23/635943566212276867210249251_concert-crowd.jpg);
+    background-size: cover;
+    padding: 24px;
+    color: $color-white;
+
+    h1 {
+        text-shadow: 2px 2px rgba($color-black, 0.5);
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-cont {
+        text-align: center;
+
+        .cta {
+            padding: 6px 24px;
+            border-radius: 3px;
+            @include font-size(1.2);
+        }
+    }
+}
+
+.preferences {
+    margin: 24px 0;
+    text-align: center;
+
+    .box {
+        display: inline-block;
+        vertical-align: top;
+        background-color: rgba($color-black, 0.75);
+        margin: 6px;
+        padding: 12px;
+        border-radius: 3px;
+    }
+
+    label {
+        margin-bottom: 6px;
+    }
+
+    label,
+    datepicker {
+        display: block;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

@@ -1,0 +1,12 @@
+@import 'common';
+
+.slot-machine {
+    margin: 24px -6px;
+    @include flexbox();
+
+    > * {
+        margin: 0 6px;
+        position: relative;
+        width: 33%;
+    }
+}
