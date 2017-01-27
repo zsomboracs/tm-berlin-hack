@@ -7,7 +7,11 @@ public class Event {
     private String startDate;
     private String startTime;
 
+    private String localStartDate;
+    private String localStartTime;
+
     private String city;
+    private String cityImageUrl;
     private String countryCode;
     private String country;
     private String stateCode;
@@ -30,6 +34,10 @@ public class Event {
 
     public String getCity() {
         return city;
+    }
+
+    public String getCityImageUrl() {
+        return cityImageUrl;
     }
 
     public String getCountryCode() {
@@ -84,11 +92,22 @@ public class Event {
         return startTime;
     }
 
+    public String getLocalStartDate() {
+        return localStartDate;
+    }
+
+    public String getLocalStartTime() {
+        return localStartTime;
+    }
+
     private Event(Builder builder) {
         eventId = builder.eventId;
         startDate = builder.startDate;
         startTime = builder.startTime;
+        localStartDate = builder.localStartDate;
+        localStartTime = builder.localStartTime;
         city = builder.city;
+        cityImageUrl = builder.cityImageUrl;
         countryCode = builder.countryCode;
         country = builder.country;
         stateCode = builder.stateCode;
@@ -106,7 +125,10 @@ public class Event {
         private String eventId;
         private String startDate;
         private String startTime;
+        private String localStartDate;
+        private String localStartTime;
         private String city;
+        private String cityImageUrl;
         private String countryCode;
         private String country;
         private String stateCode;
@@ -137,8 +159,23 @@ public class Event {
             return this;
         }
 
+        public Builder withLocalStartDate(String val) {
+            localStartDate = val;
+            return this;
+        }
+
+        public Builder withLocalStartTime(String val) {
+            localStartTime = val;
+            return this;
+        }
+
         public Builder withCity(String val) {
             city = val;
+            return this;
+        }
+
+        public Builder withCityImageUrl(String val) {
+            cityImageUrl = val;
             return this;
         }
 
