@@ -11,6 +11,7 @@ public class Event {
     private String localStartTime;
 
     private String city;
+    private String cityImageUrl;
     private String countryCode;
     private String country;
     private String stateCode;
@@ -33,6 +34,10 @@ public class Event {
 
     public String getCity() {
         return city;
+    }
+
+    public String getCityImageUrl() {
+        return cityImageUrl;
     }
 
     public String getCountryCode() {
@@ -102,6 +107,7 @@ public class Event {
         localStartDate = builder.localStartDate;
         localStartTime = builder.localStartTime;
         city = builder.city;
+        cityImageUrl = builder.cityImageUrl;
         countryCode = builder.countryCode;
         country = builder.country;
         stateCode = builder.stateCode;
@@ -122,6 +128,7 @@ public class Event {
         private String localStartDate;
         private String localStartTime;
         private String city;
+        private String cityImageUrl;
         private String countryCode;
         private String country;
         private String stateCode;
@@ -164,6 +171,11 @@ public class Event {
 
         public Builder withCity(String val) {
             city = val;
+            return this;
+        }
+
+        public Builder withCityImageUrl(String val) {
+            cityImageUrl = val;
             return this;
         }
 
