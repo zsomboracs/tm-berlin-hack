@@ -50,20 +50,20 @@ public class ArtistController {
 
     private List<FullArtistData> artists;
 
-    @PostConstruct
-    private void init() {
-        try {
-            File file = new File(getClass().getClassLoader().getResource(FILE_NAME).getFile());
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            artists = (List<FullArtistData>) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    @PostConstruct
+//    private void init() {
+//        try {
+//            //File file = new File(getClass().getClassLoader().getResource(FILE_NAME).getFile());
+//            FileInputStream fileIn = new FileInputStream(FILE_NAME);
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            artists = (List<FullArtistData>) in.readObject();
+//            in.close();
+//            fileIn.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     @GetMapping("/artists")
     @ResponseBody
@@ -123,16 +123,18 @@ public class ArtistController {
             i++;
         }
 
-        try {
-            FileOutputStream fileOut = new FileOutputStream("artists.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(fullArtistDataList);
-            out.close();
-            fileOut.close();
-            System.out.printf("Serialized data is saved in artists.ser");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        artists = fullArtistDataList;
+
+//        try {
+//            FileOutputStream fileOut = new FileOutputStream("artists.ser");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(fullArtistDataList);
+//            out.close();
+//            fileOut.close();
+//            System.out.printf("Serialized data is saved in artists.ser");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return "Done!";
     }

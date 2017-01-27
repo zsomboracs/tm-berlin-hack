@@ -8,7 +8,7 @@ public class CreativeSearch {
     private static String apiKey = "k4jpacxe6scf7xwc57rv65yq";
     private static String apiSecret = "QZPjCCtfTvPHfQgAHn2mStD6AqKPbmK5V6535xv7RUWZG";
 
-    public static void main(String[] args) {
+    public void test() {
         ApiClient client = ApiClient.GetApiClientWithClientCredentials(apiKey, apiSecret);
         String searchTerm = "New York";
 
