@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                         'bower_components/jquery/dist/jquery.min.js',
                         'bower_components/angular/angular.min.js',
                         'bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.js',
-                        'bower_components/angularjs-datepicker/dist/angular-datepicker.min.js'
+                        'bower_components/moment/min/moment.min.js'
                     ]
                 }
             },
@@ -44,14 +44,13 @@ module.exports = function(grunt) {
                     '../resources/static/dist/libs.min.css': [
                         'bower_components/angular/angular-csp.css',
                         'bower_components/reset-css/reset.css',
-                        'bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.css',
-                        'bower_components/angularjs-datepicker/dist/angular-datepicker.min.css'
+                        'bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.css'
                     ]
                 }
             }
         },
         clean: {
-            before: ['../resources/static'],
+            before: ['../resources/static/*'],
             after: ['../resources/static/min']
         },
         copy: {

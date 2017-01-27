@@ -19,6 +19,8 @@
                             name: event.city + ', ' + event.countryCode,
                             image: event.cityImageUrl,
                             price: event.minPrice,
+                            longitude: event.longitude,
+                            latitude: event.latitude,
                             url: event.url
                         };
                     });

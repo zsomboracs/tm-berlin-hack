@@ -6,14 +6,14 @@
 
     controllers.controller('MainController', ['$scope', '$q', 'TopArtistsService', 'EventsService', 'HotelDealsService', function($scope, $q, TopArtistsService, EventsService, HotelDealsService) {
         function MainController() {
+            this.fromDate = this.getDateFor(0);
+            this.toDate = this.getDateFor(90);
         }
 
         MainController.prototype = {
             initialized: false,
 
             participants: 2,
-            fromDate: null,
-            toDate: null,
 
             artists: [],
             events: [],
@@ -29,14 +29,18 @@
                 var currentDate = new Date();
                 currentDate.setDate(currentDate.getDate() + offset);
 
-                return currentDate.toString();
+                return currentDate;
+            },
+
+            toISODate: function(date) {
+                return moment(date).format('YYYY-MM-DD');
             },
 
             getArtists: function() {
                 console.log('Loading artists...');
                 return TopArtistsService.getArtists({
-                    startDate: this.fromDate,
-                    endDate: this.toDate
+                    startDate: this.toISODate(this.fromDate),
+                    endDate: this.toISODate(this.toDate)
                 }).then(function(artists) {
                     this.artists = artists;
                 }.bind(this));
@@ -46,8 +50,8 @@
                 console.log('Loading events...');
                 return EventsService.getEvents({
                     artistId: this.selectedItems.artist.id,
-                    startDate: this.fromDate,
-                    endDate: this.toDate
+                    startDate: this.toISODate(this.fromDate),
+                    endDate: this.toISODate(this.toDate)
                 }).then(function(events) {
                     events.forEach(function(event) {
                         event.artist = this.selectedItems.artist;
@@ -61,7 +65,7 @@
                 return HotelDealsService.getHotelDeals({
                     latitude: this.selectedItems.event.latitude,
                     longitude: this.selectedItems.event.longitude,
-                    checkIn: this.selectedItems.event.startDate,
+                    checkIn: this.toISODate(this.selectedItems.event.startDate),
                     adults: this.participants
                 }).then(function(hotels) {
                     this.hotels = hotels;

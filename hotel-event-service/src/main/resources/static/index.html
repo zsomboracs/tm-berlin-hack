@@ -22,15 +22,11 @@
                 </div>
                 <div class="box">
                     <label>Events from</label>
-                    <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(0) }}">
-                        <input ng-model="vm.fromDate" type="text" />
-                    </datepicker>
+                    <input type="date" ng-model="vm.fromDate" />
                 </div>
                 <div class="box">
                     <label>Events to</label>
-                    <datepicker date-format="yyyy-MM-dd" date-set="{{ vm.getDateFor(90) }}">
-                        <input ng-model="vm.toDate" type="text" />
-                    </datepicker>
+                    <input type="date" ng-model="vm.toDate" />
                 </div>
             </div>
 

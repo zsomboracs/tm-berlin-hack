@@ -5,7 +5,7 @@
     window.services = angular.module('Services', []);
     window.controllers = angular.module('Controllers', []);
 
-    window.app = angular.module('TicketMachineApp', ['Directives', 'Services', 'Controllers', '720kb.datepicker']);
+    window.app = angular.module('TicketMachineApp', ['Directives', 'Services', 'Controllers']);
 }(window));
 
 
