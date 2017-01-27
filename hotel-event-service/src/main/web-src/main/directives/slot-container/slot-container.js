@@ -10,10 +10,25 @@
             },
             templateUrl: 'directives/slot-container/slot-container.html',
             controller: ['$scope', function($scope) {
-                $scope.placeholder = {
-                    image: null,
-                    name: ''
-                };
+                var placeholders = {
+                        artist: {
+                            image: null,
+                            name: 'Artists',
+                            price: 'TicketMaster'
+                        },
+                        event: {
+                            image: null,
+                            name: 'Events',
+                            price: 'TicketMaster'
+                        },
+                        hotel: {
+                            image: null,
+                            name: 'Hotel deals',
+                            price: 'Hotels.com'
+                        }
+                    };
+
+                $scope.placeholder = placeholders[$scope.type];
             }]
         };
     });

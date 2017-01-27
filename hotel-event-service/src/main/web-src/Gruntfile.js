@@ -79,17 +79,7 @@ module.exports = function(grunt) {
                     dest: '../resources/static/mocks',
                     filter: 'isFile'
                 }]
-            }/*,
-            icons: {
-                files: [{
-                    expand: true,
-                    cwd: 'bower_components/bootstrap/fonts',
-                    src: [
-                        '*'
-                    ],
-                    dest: '../resources/static/fonts'
-                }]
-            }*/
+            }
         },
         sass: {
             options: {

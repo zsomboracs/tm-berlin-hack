@@ -6,12 +6,11 @@
 
     controllers.controller('MainController', ['$scope', '$q', 'TopArtistsService', 'EventsService', 'HotelDealsService', function($scope, $q, TopArtistsService, EventsService, HotelDealsService) {
         function MainController() {
-            /*this.getArtists();
-            this.getEvents();
-            this.getHotels();*/
         }
 
         MainController.prototype = {
+            initialized: false,
+
             participants: 2,
             fromDate: null,
             toDate: null,
@@ -70,12 +69,34 @@
             },
 
             initGame: function() {
+                this.resetState();
                 this.getArtists()
                     .then($.proxy(this.rollArtists, this))
                     .then($.proxy(this.getEvents, this))
                     .then($.proxy(this.rollEvents, this))
                     .then($.proxy(this.getHotels, this))
                     .then($.proxy(this.rollHotels, this));
+            },
+
+            resetState: function() {
+                this.artists = [];
+                this.events = [];
+                this.hotels = [];
+
+                this.selectedItems = {
+                    artist: null,
+                    event: null,
+                    hotel: null
+                };
+
+                if(this.initialized) {
+                    ['artist', 'event', 'hotel'].forEach(function(type) {
+                        $('.' + type + '-list').slotMachine().destroy();
+                        $('.slot-placeholder[data-type="' + type + '"]').show();
+                    });
+                } else {
+                    this.initialized = true;
+                }
             },
 
             rollArtists: function() {
