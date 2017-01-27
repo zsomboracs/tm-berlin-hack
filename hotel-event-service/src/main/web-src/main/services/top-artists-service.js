@@ -3,7 +3,8 @@
 
     services.factory('TopArtistsService', ['$http', function($http) {
         function TopArtistsService() {
-            this.url = '../mocks/top-artists.json';
+            //this.url = '../mocks/top-artists.json';
+            this.url = '/artists';
         }
 
         TopArtistsService.prototype = {

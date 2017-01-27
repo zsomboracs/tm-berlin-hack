@@ -3,7 +3,8 @@
 
     services.factory('EventsService', ['$http', function($http) {
         function EventsService() {
-            this.url = '../mocks/events.json';
+            //this.url = '../mocks/events.json';
+            this.url = '/events';
         }
 
         EventsService.prototype = {
