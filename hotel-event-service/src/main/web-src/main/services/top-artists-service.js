@@ -16,6 +16,7 @@
                 }).then(function(response) {
                     return $.map(response.data, function(artist) {
                         return {
+                            id: artist.id,
                             name: artist.name,
                             image: artist.picture
                         };
