@@ -19,9 +19,9 @@ $breakpoints: (
     )
 );
 
-@mixin font-size($size) {
+@mixin font-size($size, $lineheight: $size) {
     font-size: #{$size}rem;
-    line-height: #{$size}rem;
+    line-height: #{$lineheight}rem;
 }
 
 @mixin transform($value) {

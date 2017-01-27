@@ -42,7 +42,7 @@ $SLOT_HEIGHT: 200px;
         @include mediaQuery(mobile) {
             .name,
             .price {
-                @include font-size(1);
+                @include font-size(1, 1.5);
             }
         }
     }

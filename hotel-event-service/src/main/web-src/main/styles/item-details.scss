@@ -2,6 +2,7 @@
 
 $CARD_HEIGHT: 130px;
 $CARD_WIDTH: 200px;
+$CARD_WIDTH_MOBILE: 110px;
 
 .item-details {
     border: 1px dotted $color-black;
@@ -35,5 +36,15 @@ $CARD_WIDTH: 200px;
         position: absolute;
         bottom: 0;
         right: 0;
+    }
+
+    @include mediaQuery(mobile) {
+        .content {
+            padding-left: $CARD_WIDTH_MOBILE + 12;
+        }
+
+        img {
+            width: $CARD_WIDTH_MOBILE;
+        }
     }
 }

@@ -33,7 +33,7 @@
             },
 
             getArtists: function() {
-                console.log('getArtists');
+                console.log('Loading artists...');
                 return TopArtistsService.getArtists({
                     startDate: this.fromDate,
                     endDate: this.toDate
@@ -43,7 +43,7 @@
             },
 
             getEvents: function() {
-                console.log('getEvents');
+                console.log('Loading events...');
                 return EventsService.getEvents({
                     artistId: this.selectedItems.artist.id,
                     startDate: this.fromDate,
@@ -57,7 +57,7 @@
             },
 
             getHotels: function() {
-                console.log('getHotels');
+                console.log('Loading hotel deals...');
                 return HotelDealsService.getHotelDeals({
                     latitude: this.selectedItems.event.latitude,
                     longitude: this.selectedItems.event.longitude,
@@ -112,7 +112,7 @@
             },
 
             roll: function(type) {
-                console.log('roll', type);
+                console.log('Rolling ' + type + '...');
 
                 var deferred = $q.defer();
 
@@ -130,7 +130,7 @@
                     machine.shuffle(false, function() {
                         $scope.$apply(function() {
                             $scope.vm.selectedItems[type] = $scope.vm[type + 's'][machine.active];
-                            console.log('Machine stopped', type, this.selectedItems[type]);
+                            console.log('Rolling stopped for ' + type + 's: ', this.selectedItems[type].name);
                             deferred.resolve();
                         }.bind(this));
                     }.bind(this));
