@@ -9,6 +9,7 @@ public class Hotel {
     private String image;
     private String price;
     private String url;
+    private String address;
     private double guestRating;
     private double starRating;
     private double tripAdvisorRating;
@@ -76,5 +77,13 @@ public class Hotel {
 
     public void setPriceAmount(double priceAmount) {
         this.priceAmount = priceAmount;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
