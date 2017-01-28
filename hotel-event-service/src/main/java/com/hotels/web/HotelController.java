@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import com.hotels.api.HotelSearchResult;
-import com.hotels.service.DestinationService;
+import com.hotels.domain.hotel.HotelSearchResult;
 import com.hotels.service.HotelService;
 
 @Controller
@@ -22,9 +21,6 @@ public class HotelController {
 
     @Inject
     private HotelService hotelService;
-
-    @Inject
-    private DestinationService destinationService;
 
     @GetMapping("/hotels")
     @ResponseBody

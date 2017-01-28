@@ -1,4 +1,6 @@
-package com.hotels.api;
+package com.hotels.domain.hotel;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Peter_Kedvessy on 1/25/2017.
@@ -14,6 +16,14 @@ public class Hotel {
     private double starRating;
     private double tripAdvisorRating;
     private double priceAmount;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public double getTripAdvisorRating() {
         return tripAdvisorRating;
@@ -77,13 +87,5 @@ public class Hotel {
 
     public void setPriceAmount(double priceAmount) {
         this.priceAmount = priceAmount;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

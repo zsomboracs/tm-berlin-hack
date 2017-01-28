@@ -58,6 +58,17 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public RestTemplate restTemplateHotel() {
+        List<HttpMessageConverter<?>> converters = new ArrayList<>();
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+        builder.propertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setMessageConverters(converters);
+        return restTemplate;
+    }
+
+    @Bean
     public HttpEntity httpEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

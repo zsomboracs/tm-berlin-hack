@@ -1,4 +1,4 @@
-package com.hotels.api;
+package com.hotels.domain.hotel;
 
 import java.util.List;
 
@@ -10,16 +10,23 @@ public class HotelSearchResult {
     private String destination;
     private List<Hotel> result;
 
-    public HotelSearchResult(String destination, List<Hotel> result) {
-        this.destination = destination;
-        this.result = result;
+    public HotelSearchResult() {
+
     }
 
     public String getDestination() {
         return destination;
     }
 
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
     public List<Hotel> getResult() {
         return result;
+    }
+
+    public void setResult(List<Hotel> result) {
+        this.result = result;
     }
 }
