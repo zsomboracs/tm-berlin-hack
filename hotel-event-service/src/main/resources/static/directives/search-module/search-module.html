@@ -12,8 +12,10 @@
         <input type="date" ng-model="toDate" />
     </div>
 
-    <div ng-show="invalidStartDate || invalidEndDate" class="box error-message">
-        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ errorMessage }}
+    <div class="error-message">
+        <div ng-show="invalidStartDate || invalidEndDate" class="box">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ errorMessage }}
+        </div>
     </div>
     
     <div class="cta-cont">
