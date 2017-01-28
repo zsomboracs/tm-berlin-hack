@@ -24,6 +24,8 @@ function toISODate(date) {
         }
 
         MainController.prototype = {
+            totalPrice: 0,
+
             artists: [],
             events: [],
             hotels: [],
@@ -97,6 +99,7 @@ function toISODate(date) {
                             if(!(this.machines.artist.running && this.machines.event.running && this.machines.hotel.running)) {
                                 $scope.$apply($.proxy(function() {
                                     this.locked = false;
+                                    this.totalPrice = this.participants * this.selectedItems.event.price + this.selectedItems.hotel.price;
                                     console.log('ALL DONE');
                                     clearInterval(interval);
                                 }, this));

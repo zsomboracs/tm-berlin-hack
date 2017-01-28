@@ -18,6 +18,7 @@
                         return {
                             name: event.city + ', ' + event.countryCode,
                             image: event.cityImageUrl,
+                            city: event.city,
                             date: moment(event.localStartDate).format('YYYY.MM.DD.'),
                             time: event.localStartTime,
                             price: event.minPrice,

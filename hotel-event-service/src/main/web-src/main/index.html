@@ -15,6 +15,10 @@
         <div class="content">
             <h1>The <span class="main-colored">Ticket</span> Machine</h1>
 
+            <p class="introduction">
+                Do you have some free-time? Let's have some fun!
+            </p>
+
             <search-module
                 participants="vm.participants"
                 from-date="vm.fromDate"
@@ -36,9 +40,34 @@
 
             <item-details type="event" item="vm.selectedItems.event" participants="vm.participants"></item-details>
             <item-details type="hotel" item="vm.selectedItems.hotel" participants="vm.participants"></item-details>
+
+            <div class="total-price">
+                Total price: <b>${{ vm.totalPrice }}</b>
+            </div>
+
+            <div class="share">
+                <h2>Share your results!<h2>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.theticketmaster.net&title=Hey, I just used TicketMachine&description=I can go for a {{ vm.selectedItems.artist.name }} concert to {{ vm.selectedItems.event.city }} for only ${{ vm.totalPrice }} with accommodation included!&picture={{ vm.selectedItems.artist.image }}" target="_blank">
+                    <button class="cta facebook-btn">
+                        <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                        Share on Facebook
+                    </button>
+                </a>
+
+                <a href="https://twitter.com/intent/tweet?status=Hey, I just used TicketMachine! I can go for a {{ vm.selectedItems.artist.name }} concert to {{ vm.selectedItems.event.city }} for only ${{ vm.totalPrice }} with accommodation included! - http://theticketmachine.net" target="_blank">
+                    <button class="cta twitter-btn">
+                        <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                        Share on Twitter
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 
+    <footer>
+        The Ticket Machine &copy; 2017 - theticketmachine.net
+    </footer>
+ 
     <script src="dist/libs.min.js"></script>
     <script src="dist/app.min.js"></script>
 </body>
