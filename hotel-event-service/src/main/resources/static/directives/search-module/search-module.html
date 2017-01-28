@@ -1,0 +1,25 @@
+<div class="search-module">
+    <div class="box">
+        <label><i class="fa fa-user" aria-hidden="true"></i> Participants</label>
+        <input type="number" ng-model="participants" />
+    </div>
+    <div class="box">
+        <label><i class="fa fa-calendar" aria-hidden="true"></i> Events from</label>
+        <input type="date" ng-model="fromDate" />
+    </div>
+    <div class="box">
+        <label><i class="fa fa-calendar" aria-hidden="true"></i> Events to</label>
+        <input type="date" ng-model="toDate" />
+    </div>
+
+    <div ng-show="invalidStartDate || invalidEndDate" class="box error-message">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ errorMessage }}
+    </div>
+    
+    <div class="cta-cont">
+        <button class="cta" ng-disabled="!(participants && fromDate && toDate) || locked || invalidStartDate || invalidEndDate" ng-click="search();">
+            <span ng-show="!locked">Search</span>
+            <span ng-show="locked">Searching...</span>
+        </button>
+    </div>
+</div>

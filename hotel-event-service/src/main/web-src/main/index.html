@@ -15,27 +15,12 @@
         <div class="content">
             <h1>Ticket Machine</h1>
 
-            <div class="preferences">
-                <div class="box">
-                    <label><i class="fa fa-user" aria-hidden="true"></i> Participants</label>
-                    <input type="number" ng-model="vm.participants" />
-                </div>
-                <div class="box">
-                    <label><i class="fa fa-calendar" aria-hidden="true"></i> Events from</label>
-                    <input type="date" ng-model="vm.fromDate" />
-                </div>
-                <div class="box">
-                    <label><i class="fa fa-calendar" aria-hidden="true"></i> Events to</label>
-                    <input type="date" ng-model="vm.toDate" />
-                </div>
-            </div>
-
-            <div class="cta-cont">
-                <button class="cta" ng-disabled="!(vm.participants && vm.fromDate && vm.toDate) || vm.locked" ng-click="vm.initGame();">
-                    <span ng-show="!vm.locked">Search</span>
-                    <span ng-show="vm.locked">Searching...</span>
-                </button>
-            </div>
+            <search-module
+                participants="vm.participants"
+                from-date="vm.fromDate"
+                to-date="vm.toDate"
+                locked="vm.locked">
+            </search-module>
         </div>
     </div>
 

@@ -29,6 +29,11 @@
     .content {
         position: relative;
         z-index: 1;
+
+        @include mediaQuery(desktop) {
+            width: $SITE_CONTAINER_WIDTH;
+            margin: 0 auto;
+        }
     }
 
     .cta-cont {
@@ -40,7 +45,7 @@
     }
 }
 
-.preferences {
+.search-module {
     margin: 24px 0;
     text-align: center;
 
@@ -51,6 +56,10 @@
         margin: 6px;
         padding: 12px;
         border-radius: 3px;
+    }
+
+    .error-message {
+        margin-bottom: 12px;
     }
 
     label {

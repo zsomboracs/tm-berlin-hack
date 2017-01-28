@@ -36,6 +36,11 @@ a:hover {
 
 .container {
     margin: 0 12px;
+
+    @include mediaQuery(desktop) {
+        width: $SITE_CONTAINER_WIDTH;
+        margin: 24px auto;
+    }
 }
 
 .cta {

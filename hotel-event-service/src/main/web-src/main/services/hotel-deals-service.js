@@ -18,6 +18,7 @@
                         return {
                             name: hotel.name,
                             image: hotel.image,
+                            address: hotel.address,
                             priceFormatted: hotel.price,
                             starRating: parseInt(hotel.starRating, 10),
                             guestRating: hotel.guestRating,

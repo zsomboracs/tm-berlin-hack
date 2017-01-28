@@ -1,3 +1,7 @@
+function toISODate(date) {
+    return moment(date).format('YYYY-MM-DD');
+}
+
 (function(controllers) {
     'use strict';
 
@@ -11,6 +15,8 @@
             this.participants = 2;
             this.fromDate = this.getDateFor(0);
             this.toDate = this.getDateFor(90);
+
+            $scope.$on('initGame', $.proxy(this.initGame, this));
         }
 
         MainController.prototype = {
@@ -31,15 +37,11 @@
                 return currentDate;
             },
 
-            toISODate: function(date) {
-                return moment(date).format('YYYY-MM-DD');
-            },
-
             getArtists: function() {
                 console.log('Loading artists...');
                 return TopArtistsService.getArtists({
-                    startDate: this.toISODate(this.fromDate),
-                    endDate: this.toISODate(this.toDate)
+                    startDate: toISODate(this.fromDate),
+                    endDate: toISODate(this.toDate)
                 }).then(function(artists) {
                     this.artists = artists;
                 }.bind(this));
@@ -49,8 +51,8 @@
                 console.log('Loading events...');
                 return EventsService.getEvents({
                     artistId: this.selectedItems.artist.id,
-                    startDate: this.toISODate(this.fromDate),
-                    endDate: this.toISODate(this.toDate)
+                    startDate: toISODate(this.fromDate),
+                    endDate: toISODate(this.toDate)
                 }).then(function(events) {
                     events.forEach(function(event) {
                         event.artist = this.selectedItems.artist;
@@ -64,7 +66,7 @@
                 return HotelDealsService.getHotelDeals({
                     latitude: this.selectedItems.event.venue.latitude,
                     longitude: this.selectedItems.event.venue.longitude,
-                    checkIn: this.toISODate(this.selectedItems.event.startDate),
+                    checkIn: toISODate(this.selectedItems.event.startDate),
                     adults: this.participants
                 }).then(function(hotels) {
                     this.hotels = hotels;
