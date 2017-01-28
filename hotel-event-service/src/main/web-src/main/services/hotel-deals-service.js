@@ -4,7 +4,7 @@
     services.factory('HotelDealsService', ['$http', function($http) {
         function HotelDealsService() {
             //this.url = '../mocks/hotels.json';
-            this.url = 'http://api.theticketmachine.net/hotels';
+            this.url = '/hotels';
         }
 
         HotelDealsService.prototype = {
