@@ -14,17 +14,17 @@
                         artist: {
                             image: null,
                             name: 'Artists',
-                            price: 'TicketMaster'
+                            priceFormatted: 'TicketMaster'
                         },
                         event: {
                             image: null,
                             name: 'Events',
-                            price: 'TicketMaster'
+                            priceFormatted: 'TicketMaster'
                         },
                         hotel: {
                             image: null,
                             name: 'Hotel deals',
-                            price: 'Hotels.com'
+                            priceFormatted: 'Hotels.com'
                         }
                     };
 

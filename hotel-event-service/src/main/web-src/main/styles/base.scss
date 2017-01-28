@@ -42,8 +42,8 @@ a:hover {
     background: $color-main;
     color: $color-white;
     border: 0;
-    border-radius: 0;
-    padding: 6px 12px;
+    border-radius: 3px;
+    padding: 6px 24px;
     @include font-size(1);
     cursor: pointer;
     outline: none;
