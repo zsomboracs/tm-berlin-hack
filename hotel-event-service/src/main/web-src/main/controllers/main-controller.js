@@ -6,7 +6,11 @@ function toISODate(date) {
     'use strict';
 
     var ROLLING_INTERVAL = 100,
-        ROLLING_STOP_DELAY = 4000;
+        ROLLING_STOP_DELAY = {
+            artist: 4000,
+            event: 4000,
+            hotel: 2500
+        };
 
     controllers.controller('MainController', ['$scope', '$q', 'TopArtistsService', 'EventsService', 'HotelDealsService', function($scope, $q, TopArtistsService, EventsService, HotelDealsService) {
         function MainController() {
@@ -25,6 +29,12 @@ function toISODate(date) {
             hotels: [],
 
             selectedItems: {
+                artist: null,
+                event: null,
+                hotel: null
+            },
+
+            machines: {
                 artist: null,
                 event: null,
                 hotel: null
@@ -83,7 +93,15 @@ function toISODate(date) {
                     .then($.proxy(this.getHotels, this))
                     .then($.proxy(this.rollHotels, this))
                     .then($.proxy(function() {
-                        this.locked = false;
+                        var interval = setInterval($.proxy(function() {
+                            if(!(this.machines.artist.running && this.machines.event.running && this.machines.hotel.running)) {
+                                $scope.$apply($.proxy(function() {
+                                    this.locked = false;
+                                    console.log('ALL DONE');
+                                    clearInterval(interval);
+                                }, this));
+                            }
+                        }, this), 100);
                     }, this));
             },
 
@@ -123,33 +141,35 @@ function toISODate(date) {
             roll: function(type) {
                 console.log('Rolling ' + type + '...');
 
-                var deferred = $q.defer();
+                var selectionDeferred = $q.defer();
 
-                setTimeout(function() {
+                setTimeout($.proxy(function() {
                     var $list = $('.' + type + '-list'),
                         $placeholder = $('.slot-placeholder[data-type="' + type + '"]'),
                         machine = $list.slotMachine({
-                            delay: type === 'hotel' ? 1000 : ROLLING_STOP_DELAY,
+                            delay: ROLLING_STOP_DELAY[type],
                             direction: 'down'
                         });
 
                     $placeholder.hide();
                     this.selectedItems[type] = null;
+                    this.machines[type] = machine;
 
-                    machine.shuffle(false, function() {
-                    }.bind(this));
+                    machine.shuffle(true, function() {
+                        console.log(type, 'onstopcb');
+                    });
 
                     setTimeout($.proxy(function() {
-                        $scope.$apply(function() {
+                        $scope.$apply($.proxy(function() {
                             machine.stop();
                             $scope.vm.selectedItems[type] = $scope.vm[type + 's'][machine.active];
                             console.log('Rolling stopped for ' + type + 's: ', this.selectedItems[type].name);
-                            deferred.resolve();
-                        }.bind(this));
+                            selectionDeferred.resolve();
+                        }, this));
                     }, this), ROLLING_INTERVAL);
-                }.bind(this), 1000);
+                }, this), 1000);
 
-                return deferred.promise;
+                return selectionDeferred.promise;
             }
         };
 

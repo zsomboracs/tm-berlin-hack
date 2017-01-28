@@ -31,7 +31,7 @@
             <slot-container items="vm.hotels" type="hotel"></slot-container>
         </div>
 
-        <div ng-show="vm.selectedItems.hotel">
+        <div ng-show="vm.selectedItems.hotel && !vm.locked">
             <h2>Details</h2>
 
             <item-details type="event" item="vm.selectedItems.event" participants="vm.participants"></item-details>
