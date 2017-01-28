@@ -33,6 +33,11 @@ $SLOT_HEIGHT: 200px;
             color: $color-white;
         }
 
+        .date {
+            @include font-size(1.5);
+            color: $color-white;
+        }
+
         .price {
             margin-top: 12px;
             @include font-size(2);
@@ -41,6 +46,7 @@ $SLOT_HEIGHT: 200px;
 
         @include mediaQuery(mobile) {
             .name,
+            .date,
             .price {
                 @include font-size(1, 1.5);
             }

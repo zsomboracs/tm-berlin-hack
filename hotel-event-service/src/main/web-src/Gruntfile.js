@@ -44,7 +44,8 @@ module.exports = function(grunt) {
                     '../resources/static/dist/libs.min.css': [
                         'bower_components/angular/angular-csp.css',
                         'bower_components/reset-css/reset.css',
-                        'bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.css'
+                        'bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min.css',
+                        'bower_components/components-font-awesome/css/font-awesome.min.css'
                     ]
                 }
             }
@@ -65,6 +66,17 @@ module.exports = function(grunt) {
                         '!**/*.scss'
                     ],
                     dest: '../resources/static',
+                    filter: 'isFile'
+                }]
+            },
+            icons: {
+                files: [{
+                    expand: true,
+                    cwd: 'bower_components/components-font-awesome/fonts',
+                    src: [
+                        '**'
+                    ],
+                    dest: '../resources/static/fonts',
                     filter: 'isFile'
                 }]
             },

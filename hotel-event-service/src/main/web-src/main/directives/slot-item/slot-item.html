@@ -4,7 +4,8 @@
     <div class="overlay">
         <div class="content">
             <p class="name">{{ item.name }}</p>
-            <p ng-if="item.price" class="price">from {{ item.price }}</p>
+            <p ng-if="item.date" class="date">{{ item.date }}</p>
+            <p ng-if="item.priceFormatted" class="price">from {{ item.priceFormatted }}</p>
         </div>
     </div>
 </div>

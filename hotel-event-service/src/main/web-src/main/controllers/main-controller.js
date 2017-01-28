@@ -6,15 +6,14 @@
 
     controllers.controller('MainController', ['$scope', '$q', 'TopArtistsService', 'EventsService', 'HotelDealsService', function($scope, $q, TopArtistsService, EventsService, HotelDealsService) {
         function MainController() {
+            this.locked = false;
+            this.initialized = false;
+            this.participants = 2;
             this.fromDate = this.getDateFor(0);
             this.toDate = this.getDateFor(90);
         }
 
         MainController.prototype = {
-            initialized: false,
-
-            participants: 2,
-
             artists: [],
             events: [],
             hotels: [],
@@ -63,8 +62,8 @@
             getHotels: function() {
                 console.log('Loading hotel deals...');
                 return HotelDealsService.getHotelDeals({
-                    latitude: this.selectedItems.event.latitude,
-                    longitude: this.selectedItems.event.longitude,
+                    latitude: this.selectedItems.event.venue.latitude,
+                    longitude: this.selectedItems.event.venue.longitude,
                     checkIn: this.toISODate(this.selectedItems.event.startDate),
                     adults: this.participants
                 }).then(function(hotels) {
@@ -73,13 +72,17 @@
             },
 
             initGame: function() {
+                this.locked = true;
                 this.resetState();
                 this.getArtists()
                     .then($.proxy(this.rollArtists, this))
                     .then($.proxy(this.getEvents, this))
                     .then($.proxy(this.rollEvents, this))
                     .then($.proxy(this.getHotels, this))
-                    .then($.proxy(this.rollHotels, this));
+                    .then($.proxy(this.rollHotels, this))
+                    .then($.proxy(function() {
+                        this.locked = false;
+                    }, this));
             },
 
             resetState: function() {

@@ -6,9 +6,15 @@
             restrict: 'E',
             scope: {
                 type: '@type',
-                item: '=item'
+                item: '=item',
+                participants: '=participants'
             },
-            templateUrl: 'directives/item-details/item-details.html'
+            templateUrl: 'directives/item-details/item-details.html',
+            controller: ['$scope', function($scope) {
+                $scope.range = function(n) {
+                    return new Array(n || 0);
+                };
+            }]
         };
     });
 

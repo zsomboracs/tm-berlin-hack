@@ -18,7 +18,10 @@
                         return {
                             name: hotel.name,
                             image: hotel.image,
-                            price: hotel.price,
+                            priceFormatted: hotel.price,
+                            starRating: parseInt(hotel.starRating, 10),
+                            guestRating: hotel.guestRating,
+                            tripAdvisorRating: hotel.tripAdvisorRating,
                             url: hotel.url
                         };
                     });

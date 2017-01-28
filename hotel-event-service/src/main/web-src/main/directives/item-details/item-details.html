@@ -1,20 +1,45 @@
 <div class="item-details {{ type }}">
     <div class="content">
-        <img ng-src="{{ item.image }}" alt="{{ item.name }}" />
-
         <div ng-if="type === 'event'">
-            <p class="title">
-                {{ item.artist.name}} concert ticket
+            <img ng-src="{{ item.artist.image }}" alt="{{ item.artist.name }}" />
+
+            <p class="title">{{ item.artist.name}} concert ticket</p>
+
+            <p>
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <a href="http://maps.google.com/maps?z=12&t=m&q=loc:{{ item.venue.latitude }}+{{ item.venue.longitude }}" target="_blank">
+                    {{ item.venue.name }} ({{ item.venue.address }})
+                </a>
             </p>
+
+            <p><b>Starting:</b> {{ item.date }} {{ item.time }}</p>
+
+            <p><b>Single ticket price:</b> {{ item.priceFormatted }}</p>
+            <p ng-if="participants > 1"><b>Price for {{ participants }} adults:</b> ${{ participants * item.price }}</p>
         </div>
 
         <div ng-if="type === 'hotel'">
-            <p class="title">
-                Accommodation in {{ item.name }}
-            </p>
-        </div>
+            <img ng-src="{{ item.image }}" alt="{{ item.name }}" />
 
-        <span class="price">{{ item.price }}</span>
+            <p class="title">Accommodation in {{ item.name }}</p>
+
+            <p>
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <a href="http://maps.google.com/maps?z=12&t=m&q={{ item.name }}" target="_blank">
+                    {{ item.name }}
+                </a>
+            </p>
+
+            <p ng-if="item.starRating">
+                <i ng-repeat="i in range(item.starRating) track by $index" class="fa fa-star" aria-hidden="true">{{ i }}</i>
+            
+                <span ng-if="item.tripAdvisorRating" class="tripadvisor">
+                    <i class="fa fa-tripadvisor" aria-hidden="true"></i> {{ item.tripAdvisorRating}}
+                </span>
+            </p>
+
+            <p><b>Price for {{ participants }} adults:</b> {{ item.priceFormatted }}</p>
+        </div>
 
         <a href="{{ item.url }}" target="_blank" class="btn">
             <button class="cta">Buy now</button>

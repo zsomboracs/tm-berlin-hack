@@ -17,22 +17,23 @@
 
             <div class="preferences">
                 <div class="box">
-                    <label>Participants</label>
+                    <label><i class="fa fa-user" aria-hidden="true"></i> Participants</label>
                     <input type="number" ng-model="vm.participants" />
                 </div>
                 <div class="box">
-                    <label>Events from</label>
+                    <label><i class="fa fa-calendar" aria-hidden="true"></i> Events from</label>
                     <input type="date" ng-model="vm.fromDate" />
                 </div>
                 <div class="box">
-                    <label>Events to</label>
+                    <label><i class="fa fa-calendar" aria-hidden="true"></i> Events to</label>
                     <input type="date" ng-model="vm.toDate" />
                 </div>
             </div>
 
             <div class="cta-cont">
-                <button class="cta" ng-disabled="!(vm.participants && vm.fromDate && vm.toDate)" ng-click="vm.initGame();">
-                    Search
+                <button class="cta" ng-disabled="!(vm.participants && vm.fromDate && vm.toDate) || vm.locked" ng-click="vm.initGame();">
+                    <span ng-show="!vm.locked">Search</span>
+                    <span ng-show="vm.locked">Searching...</span>
                 </button>
             </div>
         </div>
@@ -48,8 +49,8 @@
         <div ng-show="vm.selectedItems.hotel">
             <h2>Details</h2>
 
-            <item-details type="event" item="vm.selectedItems.event"></item-details>
-            <item-details type="hotel" item="vm.selectedItems.hotel"></item-details>
+            <item-details type="event" item="vm.selectedItems.event" participants="vm.participants"></item-details>
+            <item-details type="hotel" item="vm.selectedItems.hotel" participants="vm.participants"></item-details>
         </div>
     </div>
 

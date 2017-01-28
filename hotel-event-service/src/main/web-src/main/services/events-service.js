@@ -18,9 +18,16 @@
                         return {
                             name: event.city + ', ' + event.countryCode,
                             image: event.cityImageUrl,
+                            date: moment(event.localStartDate).format('YYYY.MM.DD.'),
+                            time: event.localStartTime,
                             price: event.minPrice,
-                            longitude: event.longitude,
-                            latitude: event.latitude,
+                            priceFormatted: '$' + parseFloat(event.minPrice),
+                            venue: {
+                                name: event.venueName,
+                                address: event.venueAddress,
+                                longitude: event.longitude,
+                                latitude: event.latitude,
+                            },
                             url: event.url
                         };
                     });

@@ -13,7 +13,7 @@ $CARD_WIDTH_MOBILE: 110px;
         width: 100%;
         position: relative;
         padding-left: $CARD_WIDTH + 12;
-        height: $CARD_HEIGHT;
+        min-height: $CARD_HEIGHT;
         box-sizing: border-box;
     }
 
@@ -29,7 +29,20 @@ $CARD_WIDTH_MOBILE: 110px;
     .title {
         font-weight: bold;
         @include font-size(1.2);
-        margin-bottom: 24px;
+        margin-bottom: 12px;
+    }
+
+    p {
+        @include font-size(1, 1.5);
+    }
+
+    .fa-star {
+        color: $color-star;
+    }
+
+    .tripadvisor {
+        color: $color-tripadvisor;
+        font-weight: bold;
     }
 
     .btn {
