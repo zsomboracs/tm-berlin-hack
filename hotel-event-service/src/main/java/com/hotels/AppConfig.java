@@ -2,7 +2,18 @@ package com.hotels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.protocol.RequestAcceptEncoding;
+import org.apache.http.client.protocol.ResponseContentEncoding;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.protocol.HttpRequestExecutor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +62,34 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity(headers);
+    }
+
+    @Bean
+    public HttpClientBuilder httpClientBuilder() {
+        return HttpClientBuilder.create().setConnectionManager(new PoolingHttpClientConnectionManager());
+    }
+
+    @Bean
+    public CloseableHttpClient closableHttpClient() {
+        RequestConfig requestConfig = RequestConfig.custom()
+            .setConnectTimeout(5000)
+            .setSocketTimeout(5000)
+            .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
+            .build();
+
+        CloseableHttpClient httpClient = HttpClients.custom()
+            .setRequestExecutor(new HttpRequestExecutor())
+            .setRetryHandler(new DefaultHttpRequestRetryHandler())
+            .setConnectionManager(new PoolingHttpClientConnectionManager() )
+            .setUserAgent("")
+            .setDefaultRequestConfig(requestConfig)
+            .evictExpiredConnections()
+            .evictIdleConnections(20, TimeUnit.SECONDS)
+            .addInterceptorFirst(new RequestAcceptEncoding())
+            .addInterceptorFirst(new ResponseContentEncoding())
+            .build();
+
+        return httpClient;
     }
 
 }
