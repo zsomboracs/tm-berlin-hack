@@ -3,6 +3,7 @@ package com.hotels.service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.hotels.api.Hotel;
 import com.hotels.api.HotelSearchResult;
 import com.hotels.client.HotelSearchClient;
+import com.hotels.client.domain.Address;
 import com.hotels.client.domain.Body;
 import com.hotels.client.domain.Data;
 import com.hotels.client.domain.Result;
@@ -66,6 +68,7 @@ public class HotelService {
             hotel.setGuestRating(result.getGuestReviews().getRating());
             hotel.setTripAdvisorRating(result.getTripAdvisorGuestReviews().getRating());
             hotel.setPriceAmount(result.getRatePlan().getPrice().getExactCurrent());
+            hotel.setAddress(getAddress(result));
             return hotel;
         } catch (Exception ex) {
             return null;
@@ -92,5 +95,16 @@ public class HotelService {
 
     private String getCoordinates(double latitude, double longitude) {
         return Double.toString(latitude) + "+" + Double.toString(longitude);
+    }
+
+    private String getAddress(Result result) {
+        List<String> addressElements = new ArrayList<>();
+        Optional<Address> address = Optional.ofNullable(result.getAddress());
+        address.map(Address::getStreetAddress).ifPresent(addressElements::add);
+        address.map(Address::getLocality).ifPresent(addressElements::add);
+        address.map(Address::getRegion).ifPresent(addressElements::add);
+        address.map(Address::getCountryName).ifPresent(addressElements::add);
+
+        return String.join(", ", addressElements);
     }
 }
